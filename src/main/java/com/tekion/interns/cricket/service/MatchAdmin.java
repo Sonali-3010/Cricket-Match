@@ -5,31 +5,32 @@ public class MatchAdmin {
     private Team team1;
     private Team team2;
     private  String matchResult;
-    private InningData i1;
-    private InningData i2;
+    private InningData innings1;
+    private InningData innings2;
     public MatchAdmin(Team team1, Team team2){
         this.team1 = team1;
         this.team2 = team2;
-
     }
     public void ConductMatch(){
         team1.setTeamPlayers();  team2.setTeamPlayers();
+
         tossResult = Match.conductToss(this);
-        i1 = new InningData(team1, team2);
-        i2 = new InningData(team2, team1);
+        innings1 = new InningData(team1, team2); innings2 = new InningData(team2, team1);
         //team1 batting first
-        System.out.println("Everything Initialized");
-        Match.Innings(true,i1);
-        Match.Innings(false,i2);
+        Match.innings(true,innings1);
+        Match.innings(false,innings2);
         
-        System.out.println(team1.getName()+" " +team1.getRunsScored()+" "+team2.getWicketsTaken());
-        System.out.println(team2.getName()+" " +team2.getRunsScored()+" "+team1.getWicketsTaken());
-        if(team1.getRunsScored() > team2.getRunsScored()){
-            matchResult = team1.getName()+" won by "+ (team1.getRunsScored() - team2.getRunsScored()) + " runs";
+//        System.out.println(team1.getName()+" " +team1.getRunsScored()+" "+team2.getWicketsTaken());
+//        System.out.println(team2.getName()+" " +team2.getRunsScored()+" "+team1.getWicketsTaken());
+        generateMatchResult();
+    }
+    private void generateMatchResult()
+    {
+        if(innings1.getInningsTotal() > innings2.getInningsTotal()){
+            matchResult = team1.getName()+" won by "+ (innings1.getInningsTotal() - innings2.getInningsTotal()) + " runs";
         }
         else
-            //matchResult = team2.getName()+" won by "+ (10 - team2.getWicketsFallen())+ " wickets";
-            matchResult = team2.getName()+" won by "+ ((10-team2.getWicketsTaken()==1)?"1 wicket":10-team2.getWicketsTaken()+" wickets");
+            matchResult = team2.getName()+" won by "+ ((10-innings2.getWicketsFallen()==1)?"1 wicket":10-innings2.getWicketsFallen()+" wickets");
     }
     public String getMatchResult() {
         return matchResult;
@@ -43,16 +44,15 @@ public class MatchAdmin {
     public String getTossResult() {
         return tossResult;
     }
-    public void setTossResult(String tossResult) {
-        this.tossResult = tossResult;
-    }
+    public InningData getInnings1() { return innings1; }
+    public InningData getInnings2() { return innings2; }
+
     public void setTeam1(Team team1) {
         this.team1 = team1;
     }
     public void setTeam2(Team team2) {
         this.team2 = team2;
     }
-    public void setMatchResult(String matchResult) {
-        this.matchResult = matchResult;
-    }
+
+
 }

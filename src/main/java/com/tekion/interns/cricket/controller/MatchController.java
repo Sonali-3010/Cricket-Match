@@ -12,6 +12,6 @@ public class MatchController {
         Team t2 = new Team("AUS");
         MatchAdmin admin = new MatchAdmin(t1,t2);
         admin.ConductMatch();
-        return new FinalMatchReport();
+        return new FinalMatchReport(admin.getTossResult(), admin.getInnings1(), admin.getInnings2(), admin.getMatchResult());
     }
 }

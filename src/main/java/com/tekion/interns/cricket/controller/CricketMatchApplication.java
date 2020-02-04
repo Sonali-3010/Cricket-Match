@@ -9,10 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CricketMatchApplication {
 
 	public static void main(String[] args) {
-		Team t1 =  new Team("IND");
-		Team t2 = new Team("AUS");
-		MatchAdmin admin = new MatchAdmin(t1,t2);
-		admin.ConductMatch();
+//		Team t1 =  new Team("IND");
+//		Team t2 = new Team("AUS");
+//		MatchAdmin admin = new MatchAdmin(t1,t2);
+//		admin.ConductMatch();
 		SpringApplication.run(CricketMatchApplication.class, args);
 	}
 

@@ -1,57 +1,64 @@
 package com.tekion.interns.cricket.service;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class InningData
 {
     private Team battingTeam;
     private Team bowlingTeam;
-    private int runsScored;
-    private int wicketsTaken;
-    private int numOfBalls;
+
+    private int inningsTotal;
+    private int wicketsFallen;
+    private int ballsPlayed;
+    private float oversPlayed;
+
+    Map< String,BattingInfo> battingLineUp;
+    Map< String,BowlingInfo> bowlingLineUp;
 
     public InningData(Team battingTeam, Team bowlingTeam)
     {
-        this(battingTeam, bowlingTeam, 0, 0, 0);
-    }
-    public InningData(Team battingTeam, Team bowlingTeam, int runsScored, int wicketsTaken, int numOfBalls)
-    {
         this.battingTeam = battingTeam;
         this.bowlingTeam = bowlingTeam;
-        this.numOfBalls = numOfBalls;
-        this.runsScored = runsScored;
-        this.wicketsTaken = wicketsTaken;
+        this.ballsPlayed = 0;
+        this.inningsTotal = 0;
+        this.wicketsFallen = 0;
+        bowlingLineUp = bowlingTeam.getBowlingMap();
+        battingLineUp = battingTeam.getBattingMap();
     }
-    public Team getBattingTeam() { return battingTeam; }
-    public Team getBowlingTeam() { return bowlingTeam; }
-    public int getRunsScored()   { return runsScored; }
-    public int getWicketsTaken()   { return wicketsTaken; }
-    public void wicketTaken()
+
+    //Getters
+    public Map<String, BattingInfo> getBattingLineUp() { return battingLineUp; }
+    public Map<String, BowlingInfo> getBowlingLineUp() { return bowlingLineUp; }
+    public int getInningsTotal()   { return inningsTotal; }
+    public int getWicketsFallen()   { return wicketsFallen; }
+    public float getOversPlayed() { return oversPlayed; }
+    @JsonIgnore public Team getBowlingTeam() { return bowlingTeam; }
+    @JsonIgnore public Player getStriker(){ return battingTeam.getStriker();}
+
+    //Other methods
+    public boolean wicketTaken()
     {
-        wicketsTaken++;
-        battingTeam.strikerOut();
+        wicketsFallen++;
         bowlingTeam.wicketTaken();
+        if(allWicketsTaken())
+            return false;
+        battingTeam.strikerOut();
+        return true;
     }
     public void ballPlayed()
     {
-        numOfBalls++;
+        ballsPlayed++;
+        oversPlayed = ballsPlayed/6 + ((float) ballsPlayed%6)/10;
         battingTeam.ballPlayed();
-        bowlingTeam.ballPlayed();
     }
-    public boolean allWicketsTaken() { return (wicketsTaken == 10) ;}
     public void runsScored(int runs)
     {
-        runsScored += runs;
+        inningsTotal += runs;
         battingTeam.runsScored(runs);
         bowlingTeam.runsGiven(runs);
     }
-    public ArrayList<Integer> stats()
-    {
-        ArrayList<Integer> result = new ArrayList<>();
-        result.add(runsScored);
-        result.add(wicketsTaken);
-        result.add(numOfBalls);
-        return result;
-    }
-
+    private boolean allWicketsTaken() { return (wicketsFallen == 10) ;}
 }

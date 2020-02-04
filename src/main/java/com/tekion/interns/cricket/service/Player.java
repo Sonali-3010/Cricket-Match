@@ -1,5 +1,7 @@
 package com.tekion.interns.cricket.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Player
 {
     private final String name;
@@ -28,6 +30,7 @@ public class Player
     }
 
     private enum Role { BATSMAN, BOWLER, ALLROUNDER }
+    @JsonIgnore
     public boolean isBowler() { return type == Role.BOWLER || type==Role.ALLROUNDER; }
     public void runsScored(int runs){ battingInfo.updateRunsScored(runs);        }
     public void ballPlayed()        { battingInfo.updateBallsFaced();           }
@@ -36,7 +39,19 @@ public class Player
     public void overPlayed()        { bowlingInfo.updateOversBowled();         }
     public void wicketTaken()       { bowlingInfo.updateWicketsTaken();      }
     public void maidenOver()        { bowlingInfo.updateMaidenOvers();       }
-
+    @JsonIgnore
     public int getNoOfOvers()    { return bowlingInfo.getNoOfOvers();    }
+    public int getRating()  { return rating; }
 
+    public String getName() {
+        return name;
+    }
+
+    public BowlingInfo getBowlingInfo() {
+        return bowlingInfo;
+    }
+
+    public BattingInfo getBattingInfo() {
+        return battingInfo;
+    }
 }
