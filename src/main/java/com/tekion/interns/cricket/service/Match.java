@@ -57,7 +57,6 @@ public class Match
                 inningData.getBowlingTeam().overPlayed();
                 isMaiden = true;
             }
-//            if(isFirst && i==67)   break;
         }
         target=inningData.getInningsTotal();
     }

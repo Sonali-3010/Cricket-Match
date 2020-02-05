@@ -19,10 +19,9 @@ public class MatchAdmin {
         //team1 batting first
         Match.innings(true,innings1);
         Match.innings(false,innings2);
-        
+        generateMatchResult();
 //        System.out.println(team1.getName()+" " +team1.getRunsScored()+" "+team2.getWicketsTaken());
 //        System.out.println(team2.getName()+" " +team2.getRunsScored()+" "+team1.getWicketsTaken());
-        generateMatchResult();
     }
     private void generateMatchResult()
     {
@@ -50,9 +49,7 @@ public class MatchAdmin {
     public void setTeam1(Team team1) {
         this.team1 = team1;
     }
-    public void setTeam2(Team team2) {
-        this.team2 = team2;
-    }
+    public void setTeam2(Team team2) { this.team2 = team2; }
 
 
 }

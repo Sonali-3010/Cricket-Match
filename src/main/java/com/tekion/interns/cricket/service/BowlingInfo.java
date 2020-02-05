@@ -12,7 +12,6 @@ public class BowlingInfo {
         this.wicketsTaken = 0;
         this.maidenOvers = 0;
     }
-
     public int getNoOfOvers()       { return oversBowled;    }
     public int getRunsGiven()       { return runsGiven;    }
     public int getWicketsTaken()    { return wicketsTaken; }

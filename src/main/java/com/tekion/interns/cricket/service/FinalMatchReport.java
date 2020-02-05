@@ -1,5 +1,6 @@
 package com.tekion.interns.cricket.service;
 
+//Class to show final report
 public class FinalMatchReport {
     private String tossResult;
     private InningData firstInnings;

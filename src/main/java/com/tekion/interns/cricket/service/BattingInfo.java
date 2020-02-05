@@ -4,18 +4,18 @@ public class BattingInfo
 {
     private int ballsFaced;
     private int runsScored;
-    private int noOfBoundaries;
+    private int boundariesHit;
     public BattingInfo()
     {
         ballsFaced = 0;
         runsScored = 0;
-        noOfBoundaries = 0;
+        boundariesHit = 0;
     }
     public int getBallsFaced()       { return ballsFaced;      }
     public int getRunsScored()        { return runsScored;       }
-    public int getNoOfBoundaries()  { return noOfBoundaries; }
+    public int getBoundariesHit()  { return boundariesHit; }
     public void updateRunsScored(int runs){ runsScored +=runs;        }
     public void updateBallsFaced()        { ballsFaced++;           }
-    public void updateBoundaries()    { noOfBoundaries++;      }
+    public void updateBoundaries()    { boundariesHit++;      }
 }
 

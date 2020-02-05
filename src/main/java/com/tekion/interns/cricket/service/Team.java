@@ -1,7 +1,5 @@
 package com.tekion.interns.cricket.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +24,6 @@ public class Team
         teamPlayers = new ArrayList<>();
     }
     public void setTeamPlayers() {
-//        this.teamPlayers = teamPlayers;
         for(int i=0; i<11; i++)
         {
             int t = i<4 ? 1 : (i<6 ? 3 : 2 ) ;
@@ -36,47 +33,42 @@ public class Team
         battingMap.put(teamPlayers.get(nonStriker).getName(), teamPlayers.get(nonStriker).getBattingInfo());
     }
 
-    public Map<String, BattingInfo> getBattingMap() {
-        return battingMap;
-    }
-
-    public Map<String, BowlingInfo> getBowlingMap() {
-        return bowlingMap;
-    }
-
+    public Map<String, BattingInfo> getBattingMap() { return battingMap; }
+    public Map<String, BowlingInfo> getBowlingMap() { return bowlingMap; }
     public String getName() { return teamName; }
     public Player getStriker(){ return teamPlayers.get(striker);}
+
     public void runsScored(int runs)
     {
-        teamPlayers.get(striker).runsScored(runs);
+        getStriker().runsScored(runs);
         if(runs%2==1)
             strikeChange();
         if(runs==4 || runs==6)
             boundaryScored();
     }
-    public void ballPlayed()    {teamPlayers.get(striker).ballPlayed();}
-    public void boundaryScored() { teamPlayers.get(striker).boundaryScored(); }
-    public void runsGiven(int runs) { teamPlayers.get(bowlerIndex).runsGiven(runs); }
-    public void wicketTaken()       { teamPlayers.get(bowlerIndex).wicketTaken(); }
-    public void maidenOver()        { teamPlayers.get(bowlerIndex).maidenOver(); }
+    public void ballPlayed()    { getStriker().ballPlayed();}
+    public void boundaryScored() { getStriker().boundaryScored(); }
+    public void runsGiven(int runs) { getBowler().runsGiven(runs); }
+    public void wicketTaken()       { getBowler().wicketTaken(); }
+    public void maidenOver()        { getBowler().maidenOver(); }
     public void overStarted()
     {
-        if(teamPlayers.get(bowlerIndex).getNoOfOvers()==0)
-            bowlingMap.put(teamPlayers.get(bowlerIndex).getName(), teamPlayers.get(bowlerIndex).getBowlingInfo());
-        teamPlayers.get(bowlerIndex).overPlayed();
+        if(getBowler().getNoOfOvers()==0)
+            bowlingMap.put(getBowler().getName(), getBowler().getBowlingInfo());
+        getBowler().overPlayed();
     }
     public void overPlayed()
     {
         bowlerIndex = (bowlerIndex+1)%11;
-        while(!teamPlayers.get(bowlerIndex).isBowler())
+        while(!getBowler().isBowler())
             bowlerIndex = (bowlerIndex+1)%11;
+        strikeChange();
 //        if(!isBowlingLimitReached())
 //            while(!teamPlayers.get(bowlerIndex).isBowler() || teamPlayers.get(bowlerIndex).getNoOfOvers()>10)
 //                bowlerIndex = (bowlerIndex+1)%11;
 //        else
 //            while (teamPlayers.get(bowlerIndex).getNoOfOvers()>10)
 //                bowlerIndex = (bowlerIndex+1)%11;
-        strikeChange();
     }
     public void strikerOut()
     {
@@ -84,7 +76,17 @@ public class Team
         battingMap.put(teamPlayers.get(striker).getName(), teamPlayers.get(striker).getBattingInfo());
         nextBatsman++;
     }
-//
+    private void strikeChange()
+    {
+        int temp = striker;
+        striker = nonStriker;
+        nonStriker = temp;
+    }
+    private Player getBowler()
+    {
+        return teamPlayers.get(bowlerIndex);
+    }
+    //
 //    private boolean isBowlingLimitReached()
 //    {
 //        for(int i=0; i<11 && teamPlayers.get(i).isBowler(); i++)
@@ -92,10 +94,4 @@ public class Team
 //                return false;
 //        return true;
 //    }
-    private void strikeChange()
-    {
-        int temp = striker;
-        striker = nonStriker;
-        nonStriker = temp;
-    }
 }
